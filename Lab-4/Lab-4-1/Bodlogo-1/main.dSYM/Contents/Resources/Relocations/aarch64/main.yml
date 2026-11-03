@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/user/Desktop/C-shutis/Lab-4/Lab-4-1/Bodlogo-1/main'
+relocations:     []
+...
