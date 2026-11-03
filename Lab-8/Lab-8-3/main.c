@@ -1,20 +1,19 @@
 #include <stdio.h>
 
-int main() {
-    double a[20];
+int main(void) {
+    double a[21];
+    int i, k;
 
-    printf("20 too oruulna uu:\n");
-
-    for (int i = 0; i < 20; i++) {
+    for (i = 1; i <= 20; i++) {
+        printf("a[%d] = ", i);
         scanf("%lf", &a[i]);
     }
 
-    printf("Ur dun:\n");
-
-    for (int i = 19; i >= 10; i--) {
-        printf("%.2lf ", a[i]);
-        printf("%.2lf ", a[i - 10]);
+    for (k = 0; k <= 10; k++) {
+        printf("%g ", a[20 - k]);
+        printf("%g ", a[11 - k]);
     }
+    printf("\n");
 
     return 0;
 }
