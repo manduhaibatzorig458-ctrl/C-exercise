@@ -1,45 +1,36 @@
-#include <stdio.h>
-#include <stdlib.h>
 
-int main()
-{
-    FILE *inPtr, *evenPtr, *oddPtr;
-    int num;
+#include <stdio.h>   // Файл унших, бичих функцуудыг ашиглах сан
+#include <stdlib.h>  // system() функцийг ашиглах сан
 
-    /* input.txt файлыг унших горимоор нээнэ */
-    inPtr = fopen("input.txt", "r");
-    if (inPtr == NULL)
-    {
-        printf("input.txt файлыг нээх боломжгүй.\n");
-        exit(EXIT_FAILURE);
+int main() {  // Програмын үндсэн функц эхэлнэ
+
+    FILE *fin, *feven, *fodd;  // Оролтын болон гаралтын файлуудын заагч хувьсагч зарлаж байна
+    int d;  // Файлаас уншсан бүхэл тоог хадгалах хувьсагч
+
+    fin = fopen("input.txt", "rt");   // input.txt файлыг текст хэлбэрээр уншихаар нээнэ
+    feven = fopen("even.txt", "wt"); // even.txt файлыг тэгш тоо бичихээр нээнэ
+    fodd = fopen("odd.txt", "wt");   // odd.txt файлыг сондгой тоо бичихээр нээнэ
+
+    if (fin == NULL || feven == NULL || fodd == NULL) { // Аль нэг файл нээгдээгүй эсэхийг шалгана
+        printf("File neeh aldaa!"); // Файл нээхэд алдаа гарсныг хэвлэнэ
+        return 1; // Програмыг алдаатайгаар зогсооно
     }
 
-    /* even.txt, odd.txt файлуудыг бичих горимоор нээнэ */
-    evenPtr = fopen("even.txt", "w");
-    oddPtr = fopen("odd.txt", "w");
-    if (evenPtr == NULL || oddPtr == NULL)
-    {
-        printf("Гаралтын файлыг үүсгэж чадсангүй.\n");
-        fclose(inPtr);
-        if (evenPtr != NULL) fclose(evenPtr);
-        if (oddPtr != NULL) fclose(oddPtr);
-        exit(EXIT_FAILURE);
+    while (fscanf(fin, "%d", &d) == 1) { // input.txt файлаас нэг нэгээр нь бүхэл тоо уншина
+
+        if (d % 2 == 0) // Тоог 2-т хуваахад үлдэгдэл 0 эсэхийг шалгана
+            fprintf(feven, "%d ", d); // Тэгш тоог even.txt файлд бичнэ
+        else // Дээрх нөхцөл биелээгүй бол
+            fprintf(fodd, "%d ", d); // Сондгой тоог odd.txt файлд бичнэ
+
     }
 
-    /* Файлаас тоог нэг нэгээр нь уншиж, тэгш/сондгойг ялгана */
-    while (fscanf(inPtr, "%d", &num) == 1)
-    {
-        if (num % 2 == 0)
-            fprintf(evenPtr, "%d ", num);
-        else
-            fprintf(oddPtr, "%d ", num);
-    }
+    fclose(fin);  // input.txt файлыг хаана
+    fclose(feven); // even.txt файлыг хаана
+    fclose(fodd);  // odd.txt файлыг хаана
 
-    /* Бүх файлыг хаана */
-    fclose(inPtr);
-    fclose(evenPtr);
-    fclose(oddPtr);
-
-    printf("Амжилттай бичигдлээ.\n");
-    return 0;
+    system("pause"); // Windows орчинд програмын цонхыг түр зогсооно
+    return 0; // Програм амжилттай дууссаныг илэрхийлнэ
 }
+
+
