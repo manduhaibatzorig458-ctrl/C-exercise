@@ -1,36 +1,48 @@
+#include <stdio.h> 
 
-#include <stdio.h>   // Файл унших, бичих функцуудыг ашиглах сан
-#include <stdlib.h>  // system() функцийг ашиглах сан
+int main() {
 
-int main() {  // Програмын үндсэн функц эхэлнэ
+    FILE *input, *even, *odd;  // 3 файл зарлаж байна
+    int num;                   // Унших бүхэл тоог хадгалах хувьсагч
 
-    FILE *fin, *feven, *fodd;  // Оролтын болон гаралтын файлуудын заагч хувьсагч зарлаж байна
-    int d;  // Файлаас уншсан бүхэл тоог хадгалах хувьсагч
+    input = fopen("input.txt", "r");
 
-    fin = fopen("input.txt", "rt");   // input.txt файлыг текст хэлбэрээр уншихаар нээнэ
-    feven = fopen("even.txt", "wt"); // even.txt файлыг тэгш тоо бичихээр нээнэ
-    fodd = fopen("odd.txt", "wt");   // odd.txt файлыг сондгой тоо бичихээр нээнэ
-
-    if (fin == NULL || feven == NULL || fodd == NULL) { // Аль нэг файл нээгдээгүй эсэхийг шалгана
-        printf("File neeh aldaa!"); // Файл нээхэд алдаа гарсныг хэвлэнэ
-        return 1; // Програмыг алдаатайгаар зогсооно
+    // Файл нээгдсэн эсэхийг шалгах
+    if (input == NULL) {
+        printf("input.txt file oldsongui!\n");
+        return 1;  // Програмыг зогсоох
     }
 
-    while (fscanf(fin, "%d", &d) == 1) { // input.txt файлаас нэг нэгээр нь бүхэл тоо уншина
+    even = fopen("even.txt", "w");
+    odd = fopen("odd.txt", "w");
 
-        if (d % 2 == 0) // Тоог 2-т хуваахад үлдэгдэл 0 эсэхийг шалгана
-            fprintf(feven, "%d ", d); // Тэгш тоог even.txt файлд бичнэ
-        else // Дээрх нөхцөл биелээгүй бол
-            fprintf(fodd, "%d ", d); // Сондгой тоог odd.txt файлд бичнэ
-
+    if (even == NULL || odd == NULL) {
+        printf("File neeh aldaa!\n");
+        fclose(input);
+        return 1;
     }
 
-    fclose(fin);  // input.txt файлыг хаана
-    fclose(feven); // even.txt файлыг хаана
-    fclose(fodd);  // odd.txt файлыг хаана
+    // input.txt файлаас тоонуудыг нэг нэгээр унших
+    while (fscanf(input, "%d", &num) == 1) {
 
-    system("pause"); // Windows орчинд програмын цонхыг түр зогсооно
-    return 0; // Програм амжилттай дууссаныг илэрхийлнэ
+        // Тоог 2-т хуваахад үлдэгдэл 0 бол тэгш
+        if (num % 2 == 0) {
+            fprintf(even, "%d ", num);
+        }
+
+        // Үгүй бол сондгой
+        else {
+            fprintf(odd, "%d ", num);
+        }
+    }
+
+    // Бүх файлыг хаах
+    fclose(input);
+    fclose(even);
+    fclose(odd);
+
+    printf("Amjilttai!\n");
+
+    return 0;  // Програм амжилттай дуусах
 }
-
 
